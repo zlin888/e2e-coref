@@ -47,8 +47,13 @@ def cache_dataset(data_path, session, token_ph, len_ph, lm_emb, out_file):
         print("Cached {} documents in {}".format(doc_num + 1, data_path))
 
 if __name__ == "__main__":
+
+  gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
+  config = tf.ConfigProto(gpu_options=gpu_options)
+  config.gpu_options.allow_growth = True
+
   token_ph, len_ph, lm_emb = build_elmo()
-  with tf.Session() as session:
+  with tf.Session(config=config) as session:
     session.run(tf.global_variables_initializer())
     with h5py.File("elmo_cache.hdf5", "w") as out_file:
       for json_filename in sys.argv[1:]:

@@ -8,3 +8,6 @@ glove*.txt
 glove*.txt.filtered
 *.v*_*_conll
 *.hdf5
+.python-version
+ontonotes-release-5.0
+.vscode
