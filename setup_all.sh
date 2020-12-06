@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Download pretrained embeddings.
-# curl -O http://downloads.cs.stanford.edu/nlp/data/glove.840B.300d.zip
-# unzip glove.840B.300d.zip
-# rm glove.840B.300d.zip
+curl -O http://lsz-gpu-01.cs.washington.edu/resources/glove_50_300_2.txt
+curl -O http://downloads.cs.stanford.edu/nlp/data/glove.840B.300d.zip
+unzip glove.840B.300d.zip
+rm glove.840B.300d.zip
 
 
 wget https://lil.cs.washington.edu/coref/char_vocab.english.txt -O char_vocab.english.txt
