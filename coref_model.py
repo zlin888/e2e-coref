@@ -257,9 +257,7 @@ class CorefModel(object):
       lm_emb = tf.stack([tf.concat([word_emb, word_emb], -1),
                          lm_embeddings["lstm_outputs1"],
                          lm_embeddings["lstm_outputs2"]], -1)  # [num_sentences, max_sentence_length, 1024, 3]
-    print('lm_emb: {}'.format(lm_emb))
     lm_emb_size = util.shape(lm_emb, 2)
-    print('lm_emb_size: {}'.format(lm_emb_size))
     lm_num_layers = util.shape(lm_emb, 3)
     with tf.variable_scope("lm_aggregation"):
       self.lm_weights = tf.nn.softmax(tf.get_variable("lm_scores", [lm_num_layers], initializer=tf.constant_initializer(0.0)))

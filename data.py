@@ -53,6 +53,7 @@ class Example(object):
         bert_speaker_ids = []
         for t, s in zip(self.tokens, self.speaker_ids):
             bert_t = tokenizer.tokenize(t)
+            # one token may => two bert tokens
             orig_to_bert_map.append(len(bert_tokens))
             orig_to_bert_end_map.append(len(bert_tokens) + len(bert_t) - 1)
             bert_tokens.extend(bert_t)
@@ -169,5 +170,8 @@ def process_example(example, index, should_filter_embedded_mentions=False):
     genre = genres[doc_key[:2]]
 
     gold_starts, gold_ends = tensorize_mentions(sorted(gold_mentions))
+    
+    # cluster_ids is like [ 2 2 1 1 1 3 3], representing which cluster a gold_mention belong to
+    # gold_starts, gold_ends = zip(gold_mention)
 
     return Example(doc_key, tokens, sentence_tokens, gold_starts, gold_ends, speaker_ids, cluster_ids, genre, index)

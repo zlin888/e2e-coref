@@ -16,7 +16,7 @@ import tensorflow as tf
 import pyhocon
 
 def gpu_config():
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=1)
     gpu_options = tf.GPUOptions()
     gpu_config = tf.ConfigProto(gpu_options=gpu_options)
     gpu_config.gpu_options.allow_growth = True

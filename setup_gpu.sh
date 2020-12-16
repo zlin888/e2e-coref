@@ -1,0 +1,2 @@
+export GPU=0
+export CUDA_VISIBLE_DEVICES=0

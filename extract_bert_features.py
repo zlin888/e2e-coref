@@ -29,45 +29,47 @@ import json
 import re
 from tqdm import tqdm
 
-import modeling
+import bert_modeling as modeling
 import tokenization
 import tensorflow as tf
 import numpy as np
 
 from data import process_example
 
+BERT_MODEL_PATH = "bert_cased_L-12_H-768_A-12"
+
 flags = tf.flags
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string("input_file", None, "")
+flags.DEFINE_string("input_file", "./", "")
 
-flags.DEFINE_string("output_file", None, "")
+flags.DEFINE_string("output_file", "./bert_features.hdf5.backup", "")
 
 flags.DEFINE_string("layers", "-1,-2,-3,-4", "")
 
 flags.DEFINE_string(
-    "bert_config_file", None,
+    "bert_config_file", os.path.join(BERT_MODEL_PATH, "bert_config.json"),
     "The config json file corresponding to the pre-trained BERT model. "
     "This specifies the model architecture.")
 
 flags.DEFINE_integer(
-    "window_size", 511,
+    "window_size", 129,
     "The maximum total input sequence length after WordPiece tokenization. "
     "Sequences longer than this will be truncated, and sequences shorter "
     "than this will be padded.")
 
 flags.DEFINE_integer(
-    "stride", 127,
+    "stride", 1,
     "The maximum total input sequence length after WordPiece tokenization. "
     "Sequences longer than this will be truncated, and sequences shorter "
     "than this will be padded.")
 
 flags.DEFINE_string(
-    "init_checkpoint", None,
+    "init_checkpoint", os.path.join(BERT_MODEL_PATH, "bert_model.ckpt"),
     "Initial checkpoint (usually from a pre-trained BERT model).")
 
-flags.DEFINE_string("vocab_file", None,
+flags.DEFINE_string("vocab_file", os.path.join(BERT_MODEL_PATH, "vocab.txt"),
                     "The vocabulary file that the BERT model was trained on.")
 
 flags.DEFINE_bool(
@@ -197,7 +199,7 @@ def _convert_example_to_features(example, window_start, window_end, tokens_ids_t
         input_type_ids.append(0)
 
     input_ids = tokenizer.convert_tokens_to_ids(tokens)
-
+    
     # The mask has 1 for real tokens and 0 for padding tokens. Only real
     # tokens are attended to.
     input_mask = [1] * len(input_ids)
@@ -334,9 +336,9 @@ def main(_):
 
 
 if __name__ == "__main__":
-    flags.mark_flag_as_required("input_file")
-    flags.mark_flag_as_required("vocab_file")
-    flags.mark_flag_as_required("bert_config_file")
-    flags.mark_flag_as_required("init_checkpoint")
-    flags.mark_flag_as_required("output_file")
+    # flags.mark_flag_as_required("input_file")
+    # flags.mark_flag_as_required("vocab_file")
+    # flags.mark_flag_as_required("bert_config_file")
+    # flags.mark_flag_as_required("init_checkpoint")
+    # flags.mark_flag_as_required("output_file")
     tf.app.run()
